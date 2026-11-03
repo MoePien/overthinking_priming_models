@@ -26,4 +26,4 @@ No checkpoints trained in this project are published.
 
 ## Datasets (`scripts/setup_data.py` -> `$OGEN_DATA/`)
 
-Downloaded through `torchvision` from the sources it uses. See the terms of [CIFAR-10](https://www.cs.toronto.edu/~kriz/cifar.html).
+Downloaded through `torchvision` from the sources it uses. See the terms of [CIFAR-10](https://www.cs.toronto.edu/~kriz/cifar.html), [MNIST](http://yann.lecun.com/exdb/mnist/) and [Fashion-MNIST](https://github.com/zalandoresearch/fashion-mnist).

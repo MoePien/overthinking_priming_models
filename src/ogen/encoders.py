@@ -17,7 +17,7 @@ from .paths import OUT
 SIMCLR34 = OUT / "downloads/encoders/resnet34_simclr_cifar10/pytorch_model.bin"
 CLS18 = OUT / "downloads/encoders/resnet18_cifar10/pytorch_model.bin"
 MEAN, STD = (0.4914, 0.4822, 0.4465), (0.2023, 0.1994, 0.2010)
-FCLS = OUT / "downloads/encoders/fmnist_fcls"
+FCLS = OUT / "downloads/encoders/fmnist_fcls"   # trained by scripts/train_fmnist_clf.py (Fashion-MNIST, 32px padded)
 
 
 def _branch(b):
@@ -26,7 +26,7 @@ def _branch(b):
         return "resnet34", SIMCLR34, MEAN, STD
     if b == "cls":
         return "resnet18", CLS18, MEAN, STD
-    if b in ("fcls", "mcls"):
+    if b in ("fcls", "mcls"):   # Fashion-MNIST / MNIST classifier (scripts/train_fmnist_clf.py)
         import json
         d = FCLS if b == "fcls" else OUT / "downloads/encoders/mnist_mcls"
         m = json.loads((d / "meta.json").read_text())

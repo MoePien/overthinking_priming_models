@@ -7,6 +7,25 @@ PYTHON=${PYTHON:-python}
 export OGEN_OUT=${OGEN_OUT:-$PWD/outputs}
 export PYTORCH_ALLOC_CONF=expandable_segments:True
 
+# Classifiers for the MNIST / Fashion-MNIST runs (feature branch and evaluation-only network)
+for c in fcls feval mcls meval; do "$PYTHON" scripts/train_fmnist_clf.py $c; done
+
+# mnist/fm_ind
+"$PYTHON" -m src.ogen.train --objective fm --bs 128 --steps 200000 --keep_every 50000 --num_classes 10 --pairing epoch --dataset mnist --ot_chunk 3000 --coupling ind --noise 0.4 --out $OGEN_OUT/runs/mnist/fm_ind/stage1
+"$PYTHON" -m src.ogen.posttrain --steps 10000 --keep_every 2500 --microbatch 64 --gen_chunk 128 --num_classes 10 --groups 10 --samples 128 --refs 256 --dataset mnist --encoder convnext112+mcls --fix_t 0.6 --init $OGEN_OUT/runs/mnist/fm_ind/stage1 --out $OGEN_OUT/runs/mnist/fm_ind/stage2
+
+# mnist/fm_ot
+"$PYTHON" -m src.ogen.train --objective fm --bs 128 --steps 200000 --keep_every 50000 --num_classes 10 --pairing epoch --dataset mnist --ot_chunk 3000 --coupling ot --noise 0.4 --out $OGEN_OUT/runs/mnist/fm_ot/stage1
+"$PYTHON" -m src.ogen.posttrain --steps 10000 --keep_every 2500 --microbatch 64 --gen_chunk 128 --num_classes 10 --groups 10 --samples 128 --refs 256 --dataset mnist --encoder convnext112+mcls --fix_t 0.6 --init $OGEN_OUT/runs/mnist/fm_ot/stage1 --out $OGEN_OUT/runs/mnist/fm_ot/stage2
+
+# fmnist/fm_ind
+"$PYTHON" -m src.ogen.train --objective fm --bs 128 --steps 200000 --keep_every 50000 --num_classes 10 --pairing epoch --dataset fmnist --ot_chunk 3000 --coupling ind --noise 0.4 --out $OGEN_OUT/runs/fmnist/fm_ind/stage1
+"$PYTHON" -m src.ogen.posttrain --steps 10000 --keep_every 2500 --microbatch 64 --gen_chunk 128 --num_classes 10 --groups 10 --samples 128 --refs 256 --dataset fmnist --encoder convnext112+fcls --fix_t 0.6 --init $OGEN_OUT/runs/fmnist/fm_ind/stage1 --out $OGEN_OUT/runs/fmnist/fm_ind/stage2
+
+# fmnist/fm_ot
+"$PYTHON" -m src.ogen.train --objective fm --bs 128 --steps 200000 --keep_every 50000 --num_classes 10 --pairing epoch --dataset fmnist --ot_chunk 3000 --coupling ot --noise 0.4 --out $OGEN_OUT/runs/fmnist/fm_ot/stage1
+"$PYTHON" -m src.ogen.posttrain --steps 10000 --keep_every 2500 --microbatch 64 --gen_chunk 128 --num_classes 10 --groups 10 --samples 128 --refs 256 --dataset fmnist --encoder convnext112+fcls --fix_t 0.6 --init $OGEN_OUT/runs/fmnist/fm_ot/stage1 --out $OGEN_OUT/runs/fmnist/fm_ot/stage2
+
 # cifar10/s0840_ind
 "$PYTHON" -m src.ogen.train --bs 128 --steps 100000 --num_classes 10 --pairing epoch --coupling ind --noise 0.84 --out $OGEN_OUT/runs/cifar10/s0840_ind/stage1
 "$PYTHON" -m src.ogen.posttrain --steps 10000 --keep_every 2500 --microbatch 64 --encoder convnext112+cls --gen_chunk 128 --num_classes 10 --groups 10 --samples 128 --refs 256 --init $OGEN_OUT/runs/cifar10/s0840_ind/stage1 --out $OGEN_OUT/runs/cifar10/s0840_ind/stage2

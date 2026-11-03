@@ -1,0 +1,8 @@
+# Versions used for the reported results. Install the PyTorch build matching your system first.
+torch==2.10.0
+torchvision==0.25.0
+timm==1.0.24
+einops==0.8.2
+torch-fidelity==0.3.0
+scipy==1.17.0
+numpy==1.26.4

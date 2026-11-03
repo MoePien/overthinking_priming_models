@@ -1,0 +1,23 @@
+{
+ "steps": 25000,
+ "groups": 10,
+ "samples": 128,
+ "refs": 256,
+ "lr": 1e-05,
+ "warmup": 125,
+ "clip": 1.0,
+ "ema": 0.999,
+ "coef": 5.0,
+ "microbatch": 64,
+ "gen_chunk": 128,
+ "dataset": "cifar10",
+ "encoder": "convnext112+cls",
+ "seed": 0,
+ "num_classes": 10,
+ "log_every": 25,
+ "ckpt_every": 250,
+ "keep_every": 2500,
+ "fingerprint": "ae87a8c5cf",
+ "n_feature_outputs": 26,
+ "init": "cifar10/s0840_ind/stage1"
+}
